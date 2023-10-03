@@ -5,6 +5,7 @@ import org.yaml.snakeyaml.events.Event;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @Builder(toBuilder = true)
@@ -15,8 +16,14 @@ import java.io.Serializable;
 public class Produto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int idProduto;
     private String nome;
-    private float preco;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "produto_detalhe_id", referencedColumnName = "id")
+    ProdutoDetalhe produtoDetalhe;
+
+    @ManyToMany
+    Set<Venda> vendas;
 
 }
